@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+// import audioFile from './AudioFile'
+import ReactAudioPlayer from 'react-audio-player'
+import './tag.mp3'
 
 class App extends Component {
+
+ tag = <ReactAudioPlayer
+  src="https://www.pacdv.com/sounds/voices/am-i-totally-screwed-or.wav"
+  autoPlay={false}
+  controls={true}
+  loop="true"
+
+/>
+
   render() {
+    const audioPlayer = <ReactAudioPlayer
+    src="https://www.mfiles.co.uk/mp3-downloads/leyenda.mp3"
+    autoPlay={false}
+    controls
+    onPlay={this.tag.onPlay}
+  />
+ 
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <h1>Music Tag Feature</h1>
+      <br></br>
+      {audioPlayer}
+      {this.tag}
+     
+
       </div>
     );
   }
