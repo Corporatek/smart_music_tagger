@@ -36,22 +36,10 @@ var getDuration = sox.identify(fileNameList[0], function(err, results) {
     
   });
 
-// console.log(uploadDur)
+var y = 7.6
 
 //Below gets how many times the tag will fit into the the uploaded mp3 file
-
-var y = 50 //Change to 7.6 after testing
-
 var tagCount = Math.floor(uploadDur / y)
-
-if(tagCount === 0) {
-	console.log("im broken")
-	debugger
-} else {
-	console.log('I equal something!')
-}
-
-// var tagCount = loopCt(uploadDur, y)
 
 //Below adds the tag mp3 to an array the number of times it will fit into the track
 var tagArray = []
@@ -82,6 +70,31 @@ var concatFiles = function(tagArray, outputPipe) {
 var outFileName = 'concatted_tag.mp3'
 var munionFileName = 'tagged_beat.mp3'
 
-//calling the concat function
-concatFiles(tagArray, outFileName)
 
+var newTagFile = '/Users/newowner/Desktop/WDI/smart_music_tag/concatted_tag.mp3'
+// Merge the new new tag file with the audio track
+
+var uploaded = fileNameList[0]
+
+var merging = [uploaded, newTagFile]
+
+var mergeFiles = function(fileName, outputPipe) {
+	var command = SoxCommand()
+		.input('-M')
+		.input(fileName[0])
+		.input(fileName[1])
+
+	command.output(outputPipe)
+		.outputFileType('mp3')
+		.outputChannels(1);
+		// .concat()
+
+	addStandardListeners(command);
+		command.run()
+		return command;
+}
+
+
+//calling the concat function
+// concatFiles(tagArray, outFileName)
+mergeFiles(merging, munionFileName)
