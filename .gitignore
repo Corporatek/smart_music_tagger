@@ -21,3 +21,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/Users/newowner/Desktop/WDI/smart_music_tag/src/audiofiles
