@@ -19,7 +19,28 @@ var addStandardListeners = function(command) {
 	});
 
 	command.on('end', function() {
-	    console.log('Sox command succeeded!');
+		console.log('Sox command succeeded!');
+		mergeFiles(merging, munionFileName)
+		
+	});
+};
+var addStandardListeners2 = function(command) {
+	command.on('start', function(commandLine) {
+		console.log('Spawned sox with command ' + commandLine);
+	});
+
+	command.on('progress', function(progress) {
+	    console.log('Processing progress: ', progress);
+	});
+
+	command.on('error', function(err, stdout, stderr) {
+	    console.log('Cannot process audio: ' + err.message);
+	    console.log('Sox Command Stdout: ', stdout);
+	    console.log('Sox Command Stderr: ', stderr)
+	});
+
+	command.on('end', function() {
+		console.log('Sox command succeeded!');		
 	});
 };
 
@@ -39,13 +60,16 @@ var getDuration = sox.identify(fileNameList[0], function(err, results) {
 var y = 7.6
 
 //Below gets how many times the tag will fit into the the uploaded mp3 file
-var tagCount = Math.floor(uploadDur / y)
+var tagCount = function () {
+	var x = Math.floor(uploadDur / y)
+	return x
+}
 
 //Below adds the tag mp3 to an array the number of times it will fit into the track
 var tagArray = []
 
 (function appendFile() {
-for(i = 0; i < tagCount; i++) {
+for(i = 0; i < tagCount(); i++) {
 	tagArray.push(fileNameList[1])
 	}
 })()
@@ -89,12 +113,14 @@ var mergeFiles = function(fileName, outputPipe) {
 		.outputChannels(1);
 		// .concat()
 
-	addStandardListeners(command);
+		addStandardListeners2(command);
 		command.run()
 		return command;
 }
 
+//calling the concat function
+concatFiles(tagArray, outFileName)
 
 //calling the concat function
-// concatFiles(tagArray, outFileName)
-mergeFiles(merging, munionFileName)
+// mergeFiles(merging, munionFileName)
+
